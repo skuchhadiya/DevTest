@@ -3,6 +3,9 @@ import { NgForm } from '@angular/forms';
 import { EngineerService } from '../services/engineer.service';
 import { JobService } from '../services/job.service';
 import { JobModel } from '../models/job.model';
+import { Observable } from 'rxjs';
+import { CustomerService } from '../services/customer.service';
+import { ICustomerModel } from '../models/customer.model';
 
 @Component({
   selector: 'app-job',
@@ -11,33 +14,40 @@ import { JobModel } from '../models/job.model';
 })
 export class JobComponent implements OnInit {
 
-  public engineers: string[] = [];
-
-  public jobs: JobModel[] = [];
+  engineers$: Observable<string[]>;
+  customers$: Observable<ICustomerModel[]>;
+  jobs: JobModel[] = [];
 
   public newJob: JobModel = {
     jobId: null,
     engineer: null,
-    when: null
+    when: null,
+    customer: null
   };
 
   constructor(
-    private engineerService: EngineerService,
-    private jobService: JobService) { }
+    private _engineerService: EngineerService,
+    private _jobService: JobService,
+    private _customerService: CustomerService) {
 
-  ngOnInit() {
-    this.engineerService.GetEngineers().subscribe(engineers => this.engineers = engineers);
-    this.jobService.GetJobs().subscribe(jobs => this.jobs = jobs);
+    this.customers$ = this._customerService.GetCustomers();
+    this.engineers$ = this._engineerService.GetEngineers();
+  }
+  ngOnInit(): void {
+
+    this._jobService.GetJobs().subscribe(jobs => this.jobs = jobs);
   }
 
   public createJob(form: NgForm): void {
+
     if (form.invalid) {
       alert('form is not valid');
     } else {
-      this.jobService.CreateJob(this.newJob).then(() => {
-        this.jobService.GetJobs().subscribe(jobs => this.jobs = jobs);
+      this._jobService.CreateJob(this.newJob).then(() => {
+        this._jobService.GetJobs().subscribe(jobs => this.jobs = jobs);
       });
     }
+
   }
 
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeveloperTest.Database.Models;
+using System;
 
 namespace DeveloperTest.Models
 {
@@ -7,5 +8,7 @@ namespace DeveloperTest.Models
         public string Engineer { get; set; }
 
         public DateTime When { get; set; }
+
+        public virtual Customer Customer { get; set; }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using DeveloperTest.Models;
+using System.Threading.Tasks;
 
 namespace DeveloperTest.Business.Interfaces
 {
     public interface IJobService
     {
-        JobModel[] GetJobs();
+        Task<JobModel[]> GetJobs();
 
-        JobModel GetJob(int jobId);
+        Task<JobModel> GetJob(int jobId);
 
-        JobModel CreateJob(BaseJobModel model);
+        Task<JobModel> CreateJob(BaseJobModel model);
     }
 }

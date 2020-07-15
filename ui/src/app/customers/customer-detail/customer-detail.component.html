@@ -1,0 +1,6 @@
+<ng-container *ngIf="customer">
+    <p>CustomerId: {{customer.customerId}}</p>
+    <p>Name: {{customer.name}}</p>
+    <p>Type: {{customerTypes[customer.type]}}</p>
+</ng-container>
+<a [routerLink]="['/customers']">Back</a>

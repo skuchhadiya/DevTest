@@ -1,0 +1,38 @@
+<h2>New Customer form</h2>
+<!--If we user reactive form will help lot in testing and handling validation but solve the problem as per org standard -->
+<form #customerForm="ngForm" (ngSubmit)="createCustomer(customerForm)">
+
+    <label for="name">Name</label>
+    <input name="name" required minlength="5" #name="ngModel" [(ngModel)]="newJCustomer.name" />
+    <small *ngIf="name.invalid && name.value!=null">Please enter valid name (minimum length of 5)</small>
+
+    <label for="type">Type</label>
+    <select name="type" required #type="ngModel" ngModel placeholder="Please select" [(ngModel)]="newJCustomer.type">
+        <option [ngValue]="null" selected>Please select</option>
+        <option [ngValue]="customerTypes.Small">{{customerTypes[customerTypes.Small]}}</option>
+        <option [ngValue]="customerTypes.Large">{{customerTypes[customerTypes.Large]}}</option>
+    </select>
+    <small *ngIf="type.invalid">Please select customer type</small>
+
+
+    <button type="submit" [disabled]="customerForm.invalid">Add Customer</button>
+</form>
+<h2>Customer list</h2>
+<table spacing="0">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let customer of customers">
+            <td>{{customer.name}}</td>
+            <td>{{customerTypes[customer.type]}}</td>
+            <td>
+                <a [routerLink]="['/customers', customer.customerId]">Open</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

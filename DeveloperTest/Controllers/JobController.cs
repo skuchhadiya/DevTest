@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DeveloperTest.Business.Interfaces;
 using DeveloperTest.Models;
+using System.Threading.Tasks;
 
 namespace DeveloperTest.Controllers
 {
@@ -16,15 +17,15 @@ namespace DeveloperTest.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(jobService.GetJobs());
+            return Ok(await jobService.GetJobs());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var job = jobService.GetJob(id);
+            var job = await jobService.GetJob(id);
 
             if (job == null)
             {
@@ -35,16 +36,16 @@ namespace DeveloperTest.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(BaseJobModel model)
+        public async Task<IActionResult> Create(BaseJobModel model)
         {
             if (model.When.Date < DateTime.Now.Date)
             {
                 return BadRequest("Date cannot be in the past");
             }
 
-            var job = jobService.CreateJob(model);
+            var job = await jobService.CreateJob(model);
 
-            return Created($"job/{job.JobId}", job);
+            return Ok(Created($"job/{job.JobId}", job));
         }
     }
 }

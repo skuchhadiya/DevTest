@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JobService } from '../services/job.service';
 import { JobModel } from '../models/job.model';
+import { CustomerType } from '../enums/customer-type';
 
 @Component({
   selector: 'app-job-detail',
@@ -9,7 +10,7 @@ import { JobModel } from '../models/job.model';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
-
+  customerTypes = CustomerType;
   private jobId: number;
 
   public job: JobModel;
@@ -17,8 +18,8 @@ export class JobDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private jobService: JobService) {
-      this.jobId = route.snapshot.params.id;
-    }
+    this.jobId = route.snapshot.params.id;
+  }
 
   ngOnInit() {
     this.jobService.GetJob(this.jobId).subscribe(job => this.job = job);

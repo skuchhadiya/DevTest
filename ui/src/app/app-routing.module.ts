@@ -9,7 +9,12 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'jobs', component: JobComponent },
-  { path: 'job/:id', component: JobDetailComponent }
+  { path: 'job/:id', component: JobDetailComponent },
+  {
+    path: 'customers',
+    //lazy loaded route 
+    loadChildren: './customers/customers.module#CustomersModule'
+  }
 ];
 
 @NgModule({

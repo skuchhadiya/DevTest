@@ -4,9 +4,11 @@ using DeveloperTest.Database.Models;
 
 namespace DeveloperTest.Database
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public DbSet<Job> Jobs { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -31,6 +33,10 @@ namespace DeveloperTest.Database
                     Engineer = "Test",
                     When = DateTime.Now
                 });
+
+            modelBuilder.Entity<Customer>()
+                .ToTable("Customers")
+                .HasKey(x => x.CustomerId);
         }
     }
 }
